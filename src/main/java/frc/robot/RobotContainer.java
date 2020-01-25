@@ -10,9 +10,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.Gunk;
+import frc.robot.commands.Intook;
+import frc.robot.commands.RevUp;
+import frc.robot.commands.Shoot;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Liam;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -23,6 +30,12 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
 
+
+  public final static Intake m_eat = new Intake();
+  private final static Intook m_consume = new Intook(m_eat);
+  public final static Liam m_go = new Liam();
+  private final static Gunk m_zom = new Gunk(m_go);
+//
   private final XboxController m_controller = new XboxController(0);
 
   // The robot's subsystems and commands are defined here...
@@ -34,6 +47,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    SmartDashboard.putNumber("speed coeff", 1.f);
   }
 
   /**
@@ -44,10 +59,26 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    double maxspeed = SmartDashboard.getNumber("speed coeff", .5f);
+      
     // make command
     new JoystickButton(m_controller, XboxController.Button.kA.value)
-      .whenPressed(new RunCommand(() -> m_shooter.fire(m_controller.getTriggerAxis(Hand.kRight) * .6f), m_shooter))
+      .whenPressed(new RunCommand(() -> m_shooter.fire(m_controller.getTriggerAxis(Hand.kRight) * maxspeed), m_shooter))
       .whenReleased(new RunCommand(() -> m_shooter.fire(0.f), m_shooter));
+
+    // new JoystickButton(m_controller, XboxController.Button.kB.value)
+    //   .whenPressed(new Shoot(.2f, m_shooter));
+
+    new JoystickButton(m_controller, XboxController.Button.kB.value)
+      .whenPressed(new Shoot(maxspeed, m_shooter))
+      .whenReleased(new RevUp(maxspeed, 0.f, -.05f, m_shooter));
+
+    new JoystickButton(m_controller, XboxController.Button.kBumperRight.value)
+      .whenPressed(m_zom);
+
+
+    new JoystickButton(m_controller, XboxController.Button.kX.value)
+      .whenPressed(m_consume);
   }
 
 
@@ -61,3 +92,4 @@ public class RobotContainer {
     return null;
   }
 }
+

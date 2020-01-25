@@ -7,37 +7,29 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Shooter extends SubsystemBase {
-
-  private WPI_TalonSRX m_masterTalon = new WPI_TalonSRX(1);
-  private WPI_TalonSRX m_slaveTalon = new WPI_TalonSRX(5);
-
+public class Liam extends SubsystemBase {
   /**
-   * Creates a new Shooter.
+   * Creates a new Liam.
    */
-  public Shooter() {
 
-    m_masterTalon.setNeutralMode(NeutralMode.Brake);
-    m_slaveTalon.setNeutralMode(NeutralMode.Brake);
+  WPI_TalonSRX steed, cope;
+  public Liam() {
+    steed = new WPI_TalonSRX(1);
+    cope = new WPI_TalonSRX(2); //;)
+  }
 
-    m_slaveTalon.follow(m_masterTalon);
-
-    m_masterTalon.setInverted(InvertType.None);
-    m_slaveTalon.setInverted(InvertType.OpposeMaster);
+  public void zoom(double speed){
+    steed.set(ControlMode.PercentOutput, speed);
+    cope.set(ControlMode.PercentOutput, speed);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
-
-  public void fire(double speed) {
-    m_masterTalon.set(-speed);
   }
 }
