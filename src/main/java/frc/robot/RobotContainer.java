@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,9 +19,12 @@ import frc.robot.commands.Gunk;
 import frc.robot.commands.Intook;
 import frc.robot.commands.RevUp;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.SideWheelShooterAcceleration;
+import frc.robot.commands.SideWheelShooterShoot;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Liam;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SideWheelShooterMotorControl;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -44,6 +48,14 @@ public class RobotContainer {
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
+
+   // beginning of code for the sidewheel shooter joystick, connected to buttons X and Y
+   public final static SideWheelShooterMotorControl m_move = new SideWheelShooterMotorControl();
+   public final static SideWheelShooterMotorControl m_stop = new SideWheelShooterMotorControl();
+  Joystick operator = new Joystick(0);
+    JoystickButton RB = new JoystickButton(operator, 6); //replace button when known
+// end of initializing wheel shooter joystick buttons
+   
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
@@ -58,6 +70,14 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    //when right trigger is pressed then the SideWheel shooter starts 
+    RB.whenPressed(new RunCommand(() -> m_move.move(10), m_move));
+    RB.whenReleased(new RunCommand(() -> m_move.move(0.f), m_move));
+
+    RB.whenPressed(new SideWheelShooterShoot(10, m_move));
+    RB.whenReleased(new SideWheelShooterAcceleration(10, 0.f, -.05f, m_move));
+    //end of sidewheel shooter control code 
 
     double maxspeed = SmartDashboard.getNumber("speed coeff", .5f);
       
