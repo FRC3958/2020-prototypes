@@ -15,14 +15,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.Gunk;
-import frc.robot.commands.Intook;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakeStop;
 import frc.robot.commands.RevUp;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.SideWheelShooterAcceleration;
 import frc.robot.commands.SideWheelShooterShoot;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Liam;
+import frc.robot.subsystems.IntakeMotor;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SideWheelShooterMotorControl;
 
@@ -33,18 +32,19 @@ import frc.robot.subsystems.SideWheelShooterMotorControl;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
-
-  public final static Intake m_eat = new Intake();
-  private final static Intook m_consume = new Intook(m_eat);
-  public final static Liam m_go = new Liam();
-  private final static Gunk m_zom = new Gunk(m_go);
 //
   private final XboxController m_controller = new XboxController(0);
 
   // The robot's subsystems and commands are defined here...
   private final Shooter m_shooter = new Shooter();
 
+  // Intake shit
+  
+  public final static IntakeMotor m_intakeMotor = new IntakeMotor();
+
+  private final IntakeCommand m_intakeCommand = new IntakeCommand(m_intakeMotor);
+
+  private final IntakeStop m_intakeStop = new IntakeStop(m_intakeMotor);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -93,12 +93,10 @@ public class RobotContainer {
       .whenPressed(new Shoot(maxspeed, m_shooter))
       .whenReleased(new RevUp(maxspeed, 0.f, -.05f, m_shooter));
 
-    new JoystickButton(m_controller, XboxController.Button.kBumperRight.value)
-      .whenPressed(m_zom);
-
-
-    new JoystickButton(m_controller, XboxController.Button.kX.value)
-      .whenPressed(m_consume);
+      //intake controller shit
+      new JoystickButton(m_controller, XboxController.Button.kBumperLeft.value)
+      .whenPressed(m_intakeCommand)
+      .whenReleased(m_intakeStop);
   }
 
 

@@ -8,19 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Liam;
+import frc.robot.subsystems.IntakeMotor;
 
-public class Gunk extends CommandBase {
+public class IntakeStop extends CommandBase {
   /**
-   * Creates a new Gunk.
+   * Creates a new IntakeStop.
    */
-  public Gunk(Liam x) {
+
+   IntakeMotor m_intakeMotor;
+  public IntakeStop(IntakeMotor intakeMotor) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(x);
-    //some will win
-    //some will lose
-    // some were born to sing the blues!
+    addRequirements(intakeMotor);
+    m_intakeMotor=intakeMotor;
   }
 
   // Called when the command is initially scheduled.
@@ -31,12 +30,12 @@ public class Gunk extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_go.zoom(10);
+    m_intakeMotor.intake(0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(final boolean interrupted) {
+  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.
