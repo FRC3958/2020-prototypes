@@ -12,21 +12,25 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Liam extends SubsystemBase {
+
+public class IntakeMotor extends SubsystemBase {
   /**
-   * Creates a new Liam.
+   * Creates a new IntakeMotor.
    */
 
-  WPI_TalonSRX steed, cope;
-  public Liam() {
-    steed = new WPI_TalonSRX(1);
-    cope = new WPI_TalonSRX(2); //;)
+   static WPI_TalonSRX intakeMotor;
+
+  public IntakeMotor() {
+    intakeMotor = new WPI_TalonSRX(5);
   }
 
-  public void zoom(double speed){
-    steed.set(ControlMode.PercentOutput, speed);
-    cope.set(ControlMode.PercentOutput, speed);
+  public void intake(double speed) {
+    intakeMotor.set(ControlMode.PercentOutput, speed);
   }
+  public double getSpeed(){
+    return intakeMotor.get();
+  }
+
 
   @Override
   public void periodic() {
