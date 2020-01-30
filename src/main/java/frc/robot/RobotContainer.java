@@ -45,6 +45,14 @@ public class RobotContainer {
   private final IntakeCommand m_intakeCommand = new IntakeCommand(m_intakeMotor);
 
   private final IntakeStop m_intakeStop = new IntakeStop(m_intakeMotor);
+  
+  // Index shit
+  
+  public final static IndexMotor m_indexMotor = new IndexMotor();
+
+  private final IndexCommand m_indexCommand = new IndexCommand(m_indexMotor);
+
+  private final IndexStop m_indexStop = new IndexStop(m_indexMotor);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -97,6 +105,12 @@ public class RobotContainer {
       new JoystickButton(m_controller, XboxController.Button.kBumperLeft.value)
       .whenPressed(m_intakeCommand)
       .whenReleased(m_intakeStop);
+    
+    //index controller shit
+     new JoystickButton(m_driverController, XboxController.Button.kBumperLeft.value)
+     .whenPressed(m_indexCommand);
+     new JoystickButton(m_driverController, XboxController.Button.kBumperLeft.value) 
+      .whenReleased(m_indexStop);  
   }
 
 
