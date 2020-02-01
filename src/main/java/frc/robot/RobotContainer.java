@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,8 +18,8 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.RevUp;
 import frc.robot.commands.Shoot;
-import frc.robot.commands.SideWheelShooterAcceleration;
 import frc.robot.commands.SideWheelShooterShoot;
+import frc.robot.commands.SideWheelShooter_stop;
 import frc.robot.subsystems.IntakeMotor;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SideWheelShooterMotorControl;
@@ -50,10 +49,10 @@ public class RobotContainer {
    */
 
    // beginning of code for the sidewheel shooter joystick, connected to buttons X and Y
-   public final static SideWheelShooterMotorControl m_move = new SideWheelShooterMotorControl();
-   public final static SideWheelShooterMotorControl m_stop = new SideWheelShooterMotorControl();
-  Joystick operator = new Joystick(0);
-    JoystickButton RB = new JoystickButton(operator, 6); //replace button when known
+   public final static SideWheelShooterMotorControl m_motor = new SideWheelShooterMotorControl();
+   public final SideWheelShooterShoot m_Shoot = new SideWheelShooterShoot(m_motor);
+   public final SideWheelShooter_stop m_stop = new SideWheelShooter_stop(m_motor);
+
 // end of initializing wheel shooter joystick buttons
    
   public RobotContainer() {
@@ -72,11 +71,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     //when right trigger is pressed then the SideWheel shooter starts 
-    RB.whenPressed(new RunCommand(() -> m_move.move(10), m_move));
-    RB.whenReleased(new RunCommand(() -> m_move.move(0.f), m_move));
-
-    RB.whenPressed(new SideWheelShooterShoot(10, m_move));
-    RB.whenReleased(new SideWheelShooterAcceleration(10, 0.f, -.05f, m_move));
+    
     //end of sidewheel shooter control code 
 
     double maxspeed = SmartDashboard.getNumber("speed coeff", .5f);
@@ -97,6 +92,10 @@ public class RobotContainer {
       new JoystickButton(m_controller, XboxController.Button.kBumperLeft.value)
       .whenPressed(m_intakeCommand)
       .whenReleased(m_intakeStop);
+
+      new JoystickButton(m_controller, XboxController.Button.kBumperRight.value)
+      .whenPressed(m_Shoot)
+      .whenReleased(m_stop);
   }
 
 

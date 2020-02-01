@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
 
-  private WPI_TalonSRX m_masterTalon = new WPI_TalonSRX(1);
+  private WPI_TalonSRX m_masterTalon = new WPI_TalonSRX(3);
   private WPI_TalonSRX m_slaveTalon = new WPI_TalonSRX(5);
 
   /**
@@ -23,8 +23,8 @@ public class Shooter extends SubsystemBase {
    */
   public Shooter() {
 
-    m_masterTalon.setNeutralMode(NeutralMode.Brake);
-    m_slaveTalon.setNeutralMode(NeutralMode.Brake);
+    m_masterTalon.setNeutralMode(NeutralMode.Coast);
+    m_slaveTalon.setNeutralMode(NeutralMode.Coast);
 
     m_slaveTalon.follow(m_masterTalon);
 
