@@ -100,19 +100,16 @@ public class RobotContainer {
       new JoystickButton(m_controller, XboxController.Button.kBumperLeft.value)
       .whenPressed(m_intakeCommand)
       .whenReleased(m_intakeStop);
-<<<<<<< HEAD
 
       new JoystickButton(m_controller, XboxController.Button.kBumperRight.value)
       .whenPressed(m_Shoot)
       .whenReleased(m_stop);
-=======
     
     //index controller shit
      new JoystickButton(m_driverController, XboxController.Button.kBumperLeft.value)
      .whenPressed(m_indexCommand);
      new JoystickButton(m_driverController, XboxController.Button.kBumperLeft.value) 
       .whenReleased(m_indexStop);  
->>>>>>> c9c7868885b29f120691f70364ee5fd483677a11
   }
 
 
