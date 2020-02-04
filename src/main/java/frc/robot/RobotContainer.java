@@ -15,12 +15,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ClimberCommand;
+import frc.robot.commands.ClimberReel;
+import frc.robot.commands.ClimberReelStop;
+import frc.robot.commands.ClimberStop;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeStop;
 import frc.robot.commands.RevUp;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.SideWheelShooterAcceleration;
 import frc.robot.commands.SideWheelShooterShoot;
+import frc.robot.subsystems.ClimberMotors;
 import frc.robot.subsystems.IntakeMotor;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SideWheelShooterMotorControl;
@@ -45,6 +50,18 @@ public class RobotContainer {
   private final IntakeCommand m_intakeCommand = new IntakeCommand(m_intakeMotor);
 
   private final IntakeStop m_intakeStop = new IntakeStop(m_intakeMotor);
+
+  // Climber shit
+
+  public final static ClimberMotors m_climberMotors = new ClimberMotors();
+
+  private final ClimberCommand m_climberCommand = new ClimberCommand(m_climberMotors);
+
+  private final ClimberStop m_climberStop = new ClimberStop(m_climberMotors); 
+
+  private final ClimberReel m_climberReel = new ClimberReel(m_climberMotors);
+
+  private final ClimberReelStop m_climberReelStop = new ClimberReelStop(m_climberMotors);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -97,6 +114,15 @@ public class RobotContainer {
       new JoystickButton(m_controller, XboxController.Button.kBumperLeft.value)
       .whenPressed(m_intakeCommand)
       .whenReleased(m_intakeStop);
+      
+      //Climber controller shit
+      new JoystickButton(m_controller, XboxController.Button.kX.value)
+      .whenPressed(m_climberCommand)
+      .whenReleased(m_climberStop);
+
+      new JoystickButton(m_controller, XboxController.Button.kY.value)
+      .whenPressed(m_climberReel)
+      .whenReleased(m_climberReelStop);
   }
 
 
