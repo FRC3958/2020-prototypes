@@ -8,18 +8,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SideWheelShooterMotorControl;
+import frc.robot.subsystems.IndexMotor;
 
-public class SideWheelShooterShoot extends CommandBase {
+public class IndexCommand extends CommandBase {
+
+  IndexMotor m_IndexMotor;
+
   /**
-   * Creates a new SideWheelShooterShoot.
+   * Creates a new IntakeCommand.
    */
-  SideWheelShooterMotorControl y;
-
-  public SideWheelShooterShoot(SideWheelShooterMotorControl x) {
+  public IndexCommand(IndexMotor IndexMotor) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(x);
-    y = x;
+    addRequirements(IndexMotor);
+
+    m_IndexMotor=IndexMotor;
   }
 
   // Called when the command is initially scheduled.
@@ -30,12 +32,12 @@ public class SideWheelShooterShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    y.move(10);
-  }
+      m_IndexMotor.intake(0.5);
+       }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(final boolean interrupted) {
+  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.

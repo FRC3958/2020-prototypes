@@ -21,7 +21,7 @@ public class IntakeMotor extends SubsystemBase {
    static WPI_TalonSRX intakeMotor;
 
   public IntakeMotor() {
-    intakeMotor = new WPI_TalonSRX(5);
+    intakeMotor = new WPI_TalonSRX(6);
   }
 
   public void intake(double speed) {

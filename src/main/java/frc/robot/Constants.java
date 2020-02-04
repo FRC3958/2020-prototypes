@@ -17,6 +17,8 @@ package frc.robot;
  */
 public final class Constants {
 
+	public static final int kSlotIdx = 0;
 	public static final int kPIDLoopIdx = 0;
 	public static final int kTimeoutMs = 0;
+	
 }
